@@ -5,6 +5,9 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.db import connection
 
+from PIL import Image
+import os
+
 
 
 def index(request):
@@ -16,6 +19,14 @@ def index(request):
     cursor.execute("SELECT * FROM item_category")
     cursor.fetchall()
     categories = Category.objects.all()
+    for item in items:
+        path = os.getcwd() + item.image.url
+        with Image.open(path) as img:
+            # Resize the image to the desired dimensions
+            resized_img = img.resize((5536, 4160))
+
+            # Overwrite the original image with the resized image
+            resized_img.save(path)
 
     return render(request, 'core/index.html', {
         'categories': categories,
