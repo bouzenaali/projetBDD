@@ -24,29 +24,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
-from azure.identity import ClientSecretCredential
-import os
-
-tenant_id = os.getenv('AZURE_POSTGRESQL_TENANTID')
-client_id = os.getenv('AZURE_POSTGRESQL_CLIENTID')
-client_secret = os.getenv('AZURE_POSTGRESQL_CLIENTSECRET')
-
-cred = ClientSecretCredential(tenant_id=tenant_id, client_id=client_id, client_secret=client_secret)
-
-accessToken = cred.get_token('https://ossrdbms-aad.database.windows.net/.default')
-
-host = os.getenv('AZURE_POSTGRESQL_HOST')
-user = os.getenv('AZURE_POSTGRESQL_USER')
-database = os.getenv('AZURE_POSTGRESQL_NAME')
-
+conn_str = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
+conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.split(' ')}
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': database,
-        'USER': user,
-        'PASSWORD': accessToken.token,  
-        'HOST': host,
-        'PORT': '5432',
-        'OPTIONS': {'sslmode': 'require'},
+        'NAME': conn_str_params['dbname'],
+        'HOST': conn_str_params['host'],
+        'USER': conn_str_params['user'],
+        'PASSWORD': conn_str_params['password'],
     }
 }
