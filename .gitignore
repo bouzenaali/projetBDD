@@ -3,3 +3,10 @@ db.sqlite3
 migrations
 __pycache__
 media
+
+*.pyc
+*/*.pyc
+*/*/*.pyc
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
