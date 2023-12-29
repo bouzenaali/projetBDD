@@ -7,10 +7,28 @@
 ## Getting Started
 ### Installation
 1. Clone the repo
- `git clone https://github.com/bouzenaali/vintage.git`
-2. create a venv `python -m venv env`
-3. activate your venv `env/scripts/activate`
-4. download the requirements `pip install -r requirements.txt`
+```bash
+git clone https://github.com/bouzenaali/vintage.git
+```
+2. create a venv 
+```bash
+python -m venv venv`
+```
+3. activate your venv 
+for `windows`
+```bash
+venv/scripts/activate
+```
+for `linux` or `macOS`
+```bash
+source venv/bin/activate
+```
+4. download the requirements 
+```bash
+pip install -r requirements.txt
+```
  5. Run the server
-  `python manage.py runserver`
+```bash
+python manage.py runserver
+ ```
  6. Access the application in your web browser at http://localhost:8000
