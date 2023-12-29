@@ -3,10 +3,18 @@ from item.models import Category, Item
 from .forms import SignupForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.db import connection
+
 
 
 def index(request):
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM item_item WHERE is_sold = False")
+    cursor.fetchall()
     items = Item.objects.filter(is_sold=False)[0:6]
+    
+    cursor.execute("SELECT * FROM item_category")
+    cursor.fetchall()
     categories = Category.objects.all()
 
     return render(request, 'core/index.html', {

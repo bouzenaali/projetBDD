@@ -4,17 +4,24 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import NewItemForm, EditItemForm
 from .models import Category, Item
+from django.db import connection
+
 
 def items(request):
+    cursor = connection.cursor()
     query = request.GET.get('query', '')
     category_id = request.GET.get('category', 0)
+    cursor.execute("SELECT * FROM item_item WHERE is_sold = False")
     categories = Category.objects.all()
+    cursor.execute("SELECT * FROM item_category")
     items = Item.objects.filter(is_sold=False)
 
     if category_id:
+        cursor.execute("SELECT * FROM item_item WHERE (name LIKE %s OR description LIKE %s)", ('%'+query+'%', '%'+query+'%'))
         items = items.filter(category_id=category_id)
 
     if query:
+        cursor.execute("SELECT * FROM item_item WHERE category_id = %s", (category_id,))
         items = items.filter(Q(name__icontains=query) | Q(description__icontains=query))
 
     return render(request, 'item/items.html', {
@@ -25,7 +32,10 @@ def items(request):
     })
 
 def detail(request, pk):
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM item_item WHERE id = %s", (pk,))
     item = get_object_or_404(Item, pk=pk)
+    cursor.execute("SELECT * FROM item_item WHERE category_id = %s AND is_sold = False AND id != %s", (item.category_id, pk))
     related_items = Item.objects.filter(category=item.category, is_sold=False).exclude(pk=pk)[0:3]
 
     return render(request, 'item/detail.html', {
