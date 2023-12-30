@@ -6,7 +6,7 @@ from .settings import BASE_DIR
 SECRET_KEY = os.environ['SECRET']
 ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']]
 CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
-DEBUG = True
+DEBUG = False
 
 # WhiteNoise configuration
 MIDDLEWARE = [
@@ -19,10 +19,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ] 
-
-INSTALLED_APPS = [
-    "whitenoise.runserver_nostatic",
-]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
