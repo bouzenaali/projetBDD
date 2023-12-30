@@ -14,19 +14,11 @@ def index(request):
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM item_item WHERE is_sold = False")
     cursor.fetchall()
-    items = Item.objects.filter(is_sold=False)[0:6]
+    items = Item.objects.filter(is_sold=False)
     
     cursor.execute("SELECT * FROM item_category")
     cursor.fetchall()
     categories = Category.objects.all()
-    for item in items:
-        path = os.getcwd() + item.image.url
-        with Image.open(path) as img:
-            # Resize the image to the desired dimensions
-            resized_img = img.resize((5536, 4160))
-
-            # Overwrite the original image with the resized image
-            resized_img.save(path)
 
     return render(request, 'core/index.html', {
         'categories': categories,

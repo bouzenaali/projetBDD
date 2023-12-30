@@ -6,9 +6,9 @@
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
         <h2 class="mb-12 text-2xl text-center">Newest items</h2>
 
-        <div class="grid grid-cols-3 gap-3">
+        <div style="column-count: 3; column-gap: 1em;">
             {% for item in items %}
-                <div>
+                <div style="display: inline-block; margin-bottom: 1em; width: 100%;">
                     <a href="{% url 'item:detail' item.id %}">
                         <div>
                             <img src="{{ item.image.url }}" class="rounded-t-xl">
