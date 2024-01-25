@@ -3,7 +3,7 @@
 - This is a Database project
 - This is a team project
 
-# Team 
+## Team 
 [![](https://github.com/Romissa01.png?size=50)](https://github.com/Romissa01)
 [![](https://github.com/bouzenaali.png?size=50)](https://github.com/bouzenaali)
 
